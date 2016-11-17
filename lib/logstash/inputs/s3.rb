@@ -66,6 +66,11 @@ class LogStash::Inputs::S3 < LogStash::Inputs::Base
   # Set the directory where logstash will store the tmp files before processing them.
   # default to the current OS temporary directory in linux /tmp/logstash
   config :temporary_directory, :validate => :string, :default => File.join(Dir.tmpdir, "logstash")
+  
+  # set output path type.
+  # if filename_type => "basename", then output "path" => "test.tar.gz"
+  # if filename_type => "fullname", then output "path" => "/uploads/test.tar.gz"
+  config :filename_type, :validate => :string, :default => "basename"
 
   public
   def register
@@ -209,6 +214,9 @@ class LogStash::Inputs::S3 < LogStash::Inputs::Base
 
           event["cloudfront_version"] = metadata[:cloudfront_version] unless metadata[:cloudfront_version].nil?
           event["cloudfront_fields"]  = metadata[:cloudfront_fields] unless metadata[:cloudfront_fields].nil?
+          
+          # detect filename_type config, and add path field to event
+          event["path"] = @filename_type == "basename" ? File.basename(filename) : filename
 
           queue << event
         end
