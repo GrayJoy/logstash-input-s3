@@ -1,4 +1,50 @@
-# Logstash Plugin
+# Before Everything
+
+ > Use plugin-api-v1 branch from original repo
+
+ > plugin version 2.0.6 ( also shipped with logstash installer v2.3.3 )
+
+- feature
+  add path field to event, so you can use grok plugin to match path, and specify your own fields.
+  
+- bug
+  fix bug when specify region => "cn-north-1".
+
+## install
+
+one way, is to install 2.0.6 plugin, and replaced lib/logstash/inputs/s3.rb with one from this repo.
+another way, is to download this repo, build gem, and install from your local path
+
+## conf example
+```code
+input {
+  s3 {
+    sincedb_path => "/dev/null"
+    bucket => "<bucket>"
+    access_key_id => "<access_key_id>"
+    secret_access_key => "<secret_access_key>"
+    region => "cn-north-1"
+    filename_type => "basename"
+  }
+}
+filter {
+  grok { 
+    match => { "path" => "%{GREEDYDATA:name}_%{NUMBER:num}.tar.gz" }
+    break_on_match => false
+  }
+}
+```
+
+set conf filename_type to "basename", output the file basename to the path field
+
+`"path" => "sdsdsd_12.tar.gz"`
+
+set conf filename_type to "fullname", output the filename with directory to the path field
+
+`"path" => "uploads/sdsdsd_12.tar.gz"`
+
+
+## Logstash Plugin
 
 [![Travis Build Status](https://travis-ci.org/logstash-plugins/logstash-input-s3.svg)](https://travis-ci.org/logstash-plugins/logstash-input-s3)
 
