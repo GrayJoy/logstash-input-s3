@@ -13,7 +13,16 @@
 ## install
 
 one way, is to install 2.0.6 plugin, and replaced lib/logstash/inputs/s3.rb with one from this repo.
+
 another way, is to download this repo, build gem, and install from your local path
+
+```bash
+git clone https://github.com/GrayJoy/logstash-input-s3.git
+cd logstash-input-s3/
+# use plugin-api-v1 branch
+gem build logstash-input-s3.gemspec
+bin/logstash-plugin install /path/to/logstash-input-s3-2.0.6.gem
+```
 
 ## conf example
 ```code
