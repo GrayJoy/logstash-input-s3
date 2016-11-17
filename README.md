@@ -1,4 +1,4 @@
-# Before Everything
+# Logstash Plugin
 
  > Use plugin-api-v1 branch from original repo
 
@@ -44,7 +44,7 @@ set conf filename_type to "fullname", output the filename with directory to the 
 `"path" => "uploads/sdsdsd_12.tar.gz"`
 
 
-## Logstash Plugin
+---- ✄ original readme -----------------------
 
 [![Travis Build Status](https://travis-ci.org/logstash-plugins/logstash-input-s3.svg)](https://travis-ci.org/logstash-plugins/logstash-input-s3)
 
